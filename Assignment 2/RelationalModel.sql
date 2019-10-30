@@ -11,7 +11,7 @@ CREATE TABLE Person(
     FirstName   CHAR(20) NOT NULL,
     Address CHAR(20),
     ZipCode INTEGER,
-    TelephoneLocation   INTEGER,
+    Telephone	INTEGER,
     PRIMARY KEY (SSN),
     FOREIGN KEY (ZipCode) REFERENCES Location (ZipCode)
         ON DELETE NO ACTION
