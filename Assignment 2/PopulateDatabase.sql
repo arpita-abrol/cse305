@@ -43,6 +43,10 @@ INSERT INTO Actor VALUES(1, "Al Pacino", 63, "M", 5);
 INSERT INTO Actor VALUES(2, "Tim Robbins", 53, "M", 2);
 
 # Rental
+INSERT INTO Rental VALUES(1, 123456789, 1, 1);
+INSERT INTO Rental VALUES(2, 123456789, 2, 3);
+INSERT INTO Rental VALUES(1, 123456789, 3, 3);
+INSERT INTO Rental VALUES(2, 123456789, 4, 2);
 
 # MovieQ
 
