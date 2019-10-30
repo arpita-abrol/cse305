@@ -55,7 +55,7 @@ CREATE TABLE Account (
 );
 
 CREATE TABLE OrderTable (
-    Id INTEGER,
+    Id INTEGER NOT NULL AUTO_INCREMENT,
     OrderTableDateTime DATETIME,
     ReturnDate  DATE,
     PRIMARY KEY (Id)

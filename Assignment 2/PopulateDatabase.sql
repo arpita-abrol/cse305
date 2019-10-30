@@ -28,10 +28,10 @@ INSERT INTO Account VALUES(2, '2006-10-15', "Limited", 222222222);
 INSERT INTO Account VALUES(3, '2006-10-15', "Limited", 222222222);
 
 # OrderTable
-INSERT INTO OrderTable VALUES(1, '2009-11-11 10:00:00', '2009-11-14');
-INSERT INTO OrderTable VALUES(2, '2009-11-11 18:15:00', NULL);
-INSERT INTO OrderTable VALUES(3, '2009-11-12 09:30:00', NULL);
-INSERT INTO OrderTable VALUES(4, '2009-11-21 22:22:00', NULL);
+INSERT INTO OrderTable(OrderTableDateTime, ReturnDate) VALUES('2009-11-11 10:00:00', '2009-11-14');
+INSERT INTO OrderTable(OrderTableDateTime, ReturnDate) VALUES('2009-11-11 18:15:00', NULL);
+INSERT INTO OrderTable(OrderTableDateTime, ReturnDate) VALUES('2009-11-12 09:30:00', NULL);
+INSERT INTO OrderTable(OrderTableDateTime, ReturnDate) VALUES('2009-11-21 22:22:00', NULL);
 
 # Movie
 INSERT INTO Movie VALUES(1, "The Godfather", "Drama", 5, 10000, 3);
