@@ -11,7 +11,7 @@ CREATE TABLE Person(
     FirstName   CHAR(20) NOT NULL,
     Address CHAR(20),
     ZipCode INTEGER,
-    Telephone	INTEGER,
+    Telephone	VARCHAR(10),
     PRIMARY KEY (SSN),
     FOREIGN KEY (ZipCode) REFERENCES Location (ZipCode)
         ON DELETE NO ACTION
@@ -34,7 +34,7 @@ CREATE TABLE Customer (
     Id  INTEGER,
     Email CHAR(32),
     Rating INTEGER,
-    CreditCardNumber INTEGER,
+    CreditCardNumber CHAR(16),
     PRIMARY KEY (Id),
     FOREIGN KEY (Id) REFERENCES Person (SSN)
         ON DELETE NO ACTION
