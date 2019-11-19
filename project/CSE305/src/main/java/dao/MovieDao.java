@@ -121,7 +121,7 @@ public class MovieDao {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/NETID", "NETID", "SBUID");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM mostrented;");
 			while(rs.next()) {

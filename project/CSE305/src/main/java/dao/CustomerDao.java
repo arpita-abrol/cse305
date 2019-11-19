@@ -32,7 +32,7 @@ public class CustomerDao {
 		
 		try {
 			Class.forName("com.sql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/demo", "aabrol", "111504563");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("select * from customer where FirstName like \'%" + searchKeyword + "%\'"
 					+ "or lastName like \'%" + searchKeyword + "%\'");
