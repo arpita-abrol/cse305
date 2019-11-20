@@ -10,6 +10,8 @@ Java 11
 
 Apache Tomcat Server 9
 
+MySQL Server 5.7.20 (MySQL Workbench can be a more recent version, but you may have some issues)
+
 # Running Instructions
 
 Clone this project locally. Import from Existing Sources, and select this repository. 
