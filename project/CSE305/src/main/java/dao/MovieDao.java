@@ -74,8 +74,27 @@ public class MovieDao {
 		 * You need to handle the database insertion of the movie details and return "success" or "failure" based on result of the database insertion.
 		 */
 		
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("INSERT INTO Movie VALUES(" + 
+            								"\"" + movie.getMovieName() + "\", " +
+            								"\"" + movie.getMovieType() + "\", " +
+            								movie.getRating() + ", " +
+            								movie.getDistFee() + ", " +
+            								movie.getNumCopies() + 
+            								");");
+            if( rowsUpdated > 0 )
+            	return "success";
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+		
+		return "failure";
+		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 
 	}

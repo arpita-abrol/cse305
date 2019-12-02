@@ -69,7 +69,7 @@ CREATE TABLE OrderTable (
 );
 
 CREATE TABLE Movie (
-    Id  INTEGER,
+    Id  INTEGER NOT NULL AUTO_INCREMENT,
     MovieName   CHAR(20) NOT NULL,
     MovieType   CHAR(20) NOT NULL,
     Rating  INTEGER,

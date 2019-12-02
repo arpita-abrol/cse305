@@ -39,9 +39,9 @@ INSERT INTO OrderTable(OrderTableDateTime, ReturnDate) VALUES('2009-11-12 09:30:
 INSERT INTO OrderTable(OrderTableDateTime, ReturnDate) VALUES('2009-11-21 22:22:00', NULL);
 
 # Movie
-INSERT INTO Movie VALUES(1, "The Godfather", "Drama", 5, 10000, 3);
-INSERT INTO Movie VALUES(2, "Shawshank Redemption", "Drama", 4, 1000, 2);
-INSERT INTO Movie VALUES(3, "Borat", "Comedy", 3, 500, 1);
+INSERT INTO Movie VALUES("The Godfather", "Drama", 5, 10000, 3);
+INSERT INTO Movie VALUES("Shawshank Redemption", "Drama", 4, 1000, 2);
+INSERT INTO Movie VALUES("Borat", "Comedy", 3, 500, 1);
 
 # Actor
 INSERT INTO Actor VALUES(1, "Al Pacino", 63, "M", 5);
