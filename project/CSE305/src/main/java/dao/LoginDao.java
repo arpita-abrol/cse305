@@ -1,6 +1,12 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import model.Login;
+import model.Movie;
 
 public class LoginDao {
 	/*
@@ -18,13 +24,33 @@ public class LoginDao {
 		 * Query to verify the username and password and fetch the role of the user, must be implemented
 		 */
 		
-		/*Sample data begins*/
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Login WHERE Email=\"" + username + "\";");
+			while( rs.next() ) {
+				if( rs.getString("Pswd").equals(password) ) {
+					Login login = new Login();
+					login.setUsername(username);
+					login.setPassword(password);
+					login.setRole(rs.getString("Role"));
+					return login;
+				}
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return null;
+		
+		/*Sample data begins
 		Login login = new Login();
-		//login.setRole("customerRepresentative");
+		login.setRole("customerRepresentative");
 		login.setRole("customer");
-		//login.setRole("manager");
+		login.setRole("manager");
 		return login;
-		/*Sample data ends*/
+		Sample data ends*/
 		
 	}
 	
