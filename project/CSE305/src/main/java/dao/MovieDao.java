@@ -24,18 +24,37 @@ public class MovieDao {
 		 */
 
 		List<Movie> movies = new ArrayList<Movie>();
-				
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Movie movie = new Movie();
-			movie.setMovieID(1);
-			movie.setMovieName("The Godfather");
-			movie.setMovieType("Drama");
-			movie.setDistFee(10000);
-			movie.setNumCopies(3);
-			movie.setRating(5);
-			movies.add(movie);
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Movie;");
+			while(rs.next()) {
+				Movie movie = new Movie();
+				movie.setMovieID(rs.getInt("Id"));
+				movie.setMovieName(rs.getString("MovieName"));
+				movie.setMovieType(rs.getString("MovieType"));
+				movie.setRating(rs.getInt("Rating"));
+				movie.setDistFee(rs.getInt("DistrFee"));
+				movie.setNumCopies(rs.getInt("NumCopies"));
+				movies.add(movie);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		/*Sample data begins*/
+//		for (int i = 0; i < 10; i++) {
+//			Movie movie = new Movie();
+//			movie.setMovieID(1);
+//			movie.setMovieName("The Godfather");
+//			movie.setMovieType("Drama");
+//			movie.setDistFee(10000);
+//			movie.setNumCopies(3);
+//			movie.setRating(5);
+//			movies.add(movie);
+//		}
 		/*Sample data ends*/
 		
 		return movies;
@@ -52,13 +71,30 @@ public class MovieDao {
 
 		Movie movie = new Movie();
 		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Movie WHERE Id =" + movieID + ";");
+			while(rs.next()) {
+				movie.setMovieID(rs.getInt("Id"));
+				movie.setMovieName(rs.getString("MovieName"));
+				movie.setMovieType(rs.getString("MovieType"));
+				movie.setRating(rs.getInt("Rating"));
+				movie.setDistFee(rs.getInt("DistrFee"));
+				movie.setNumCopies(rs.getInt("NumCopies"));
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
 		/*Sample data begins*/
-		movie.setMovieID(1);
-		movie.setMovieName("The Godfather");
-		movie.setMovieType("Drama");
-		movie.setDistFee(10000);
-		movie.setNumCopies(3);
-		movie.setRating(5);
+//		movie.setMovieID(1);
+//		movie.setMovieName("The Godfather");
+//		movie.setMovieType("Drama");
+//		movie.setDistFee(10000);
+//		movie.setNumCopies(3);
+//		movie.setRating(5);
 		/*Sample data ends*/
 		
 		return movie;
@@ -144,8 +180,21 @@ public class MovieDao {
 		 * You need to handle the database deletion and return "success" or "failure" based on result of the database deletion.
 		 */
 		
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("CALL DeleteMovie(" + movieID + ");");
+            if( rowsUpdated > 0 )
+                return "success";
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        
+        return "failure";
+		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 
 	}
