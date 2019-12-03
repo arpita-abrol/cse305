@@ -27,16 +27,16 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE AddEmployee(IN newSSN INTEGER, IN newEmail CHAR(32), IN newPass CHAR(32), IN newStartDate DATE, IN newHourlyRate INTEGER, IN newLastName CHAR(20), IN newFirstName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
+CREATE PROCEDURE AddEmployee(IN newSSN INTEGER, IN newEmail CHAR(32), IN newStartDate DATE, IN newHourlyRate INTEGER, IN newLastName CHAR(20), IN newFirstName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newCity CHAR(20), IN newState CHAR(2), IN newTelephone VARCHAR(10))
 BEGIN
+	IF NOT EXISTS( SELECT * FROM Location WHERE newZipcode = ZipCode ) THEN
+        INSERT INTO Location(ZipCode, City, State)
+        VALUES(newZipcode, newCity, newState);
+    END IF;
     IF NOT EXISTS( SELECT * FROM Person WHERE newSSN = SSN ) THEN
         INSERT INTO Person(SSN, LastName, FirstName, Address, ZipCode, Telephone, Email)
         VALUES(newSSN, newLastName, newFirstName, newAddress, newZipcode, newTelephone, newEmail);
     END IF;
-    IF NOT EXISTS( SELECT * FROM Login WHERE newEmail = Email ) THEN 
-		INSERT INTO Login(SSN, Email, Pswd, Role)
-        VALUES(newId, newEmail, newPass, "customerRepresentative");
-	END IF;
     INSERT INTO Employee(Id, SSN, StartDate, HourlyRate)
     VALUES(newSSN, newSSN, newStartDate, newHourlyRate);
 END$$
@@ -44,9 +44,16 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE EditEmployee(IN newSSN INTEGER, IN newEmail CHAR(32), IN newStartDate DATE, IN newHourlyRate INTEGER, IN newLastName CHAR(20), IN newFirstName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
+CREATE PROCEDURE EditEmployee(IN newSSN INTEGER, IN newEmail CHAR(32), IN newStartDate DATE, IN newHourlyRate INTEGER, IN newLastName CHAR(20), IN newFirstName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newCity CHAR(20), IN newState CHAR(2), IN newTelephone VARCHAR(10))
 BEGIN
-	UPDATE Person
+	IF NOT EXISTS( SELECT * FROM Location WHERE newZipcode = ZipCode ) THEN
+        INSERT INTO Location(ZipCode, City, State)
+        VALUES(newZipcode, newCity, newState);
+    END IF;
+	UPDATE Location
+    SET ZipCode = newZipcode, City = newCity, State = newState
+    WHERE ZipCode = newZipcode;
+    UPDATE Person
     SET LastName = newLastName, FirstName = newFirstName, Address = newAddress, Zipcode = newZipcode, Telephone = newTelephone, Email = newEmail
     WHERE SSN = newSSN;
     UPDATE Employee
@@ -66,16 +73,16 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE AddCust(IN newId INTEGER, IN newEmail CHAR(32), IN newPass CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16), IN newFirstName CHAR(20), IN newLastName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
+CREATE PROCEDURE AddCust(IN newId INTEGER, IN newEmail CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16), IN newFirstName CHAR(20), IN newLastName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newCity CHAR(20), IN newState CHAR(2), IN newTelephone VARCHAR(10))
 BEGIN
+	IF NOT EXISTS( SELECT * FROM Location WHERE newZipcode = ZipCode ) THEN
+        INSERT INTO Location(ZipCode, City, State)
+        VALUES(newZipcode, newCity, newState);
+    END IF;
     IF NOT EXISTS( SELECT * FROM Person WHERE newId = SSN ) THEN
         INSERT INTO Person(SSN, LastName, FirstName, Address, ZipCode, Telephone, Email)
         VALUES(newId, newLastName, newFirstName, newAddress, newZipcode, newTelephone, newEmail);
     END IF;
-    IF NOT EXISTS( SELECT * FROM Login WHERE newEmail = Email ) THEN 
-		INSERT INTO Login(SSN, Email, Pswd, Role)
-        VALUES(newId, newEmail, newPass, "customer");
-	END IF;
     INSERT INTO Customer(Id, Email, Rating, CreditCardNumber)
     VALUES(newId, newEmail, newRating, newCreditCardNumber);
 END$$
@@ -83,8 +90,15 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE EditCust(IN custId INTEGER, IN newEmail CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16), IN newFirstName CHAR(20), IN newLastName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
+CREATE PROCEDURE EditCust(IN custId INTEGER, IN newEmail CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16), IN newFirstName CHAR(20), IN newLastName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newCity CHAR(20), IN newState CHAR(2), IN newTelephone VARCHAR(10))
 BEGIN
+	IF NOT EXISTS( SELECT * FROM Location WHERE newZipcode = ZipCode ) THEN
+        INSERT INTO Location(ZipCode, City, State)
+        VALUES(newZipcode, newCity, newState);
+    END IF;
+	UPDATE Location
+    SET ZipCode = newZipcode, City = newCity, State = newState
+    WHERE ZipCode = newZipcode;
 	UPDATE Person
     SET LastName = newLastName, FirstName = newFirstName, Address = newAddress, Zipcode = newZipcode, Telephone = newTelephone, Email = newEmail
     WHERE SSN = custId;
@@ -100,6 +114,15 @@ CREATE PROCEDURE DeleteCust (IN custId INTEGER )
 BEGIN
     DELETE FROM Customer
     WHERE Id = custId;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE AddLogin (IN newEmail CHAR(32), IN newPswd CHAR(32), IN newRole CHAR(32) )
+BEGIN
+    INSERT INTO Login(Email, Pswd, Role)
+    VALUES(newEmail, newPswd, newRole);
 END$$
 DELIMITER ;
 

@@ -20,14 +20,10 @@ CREATE TABLE Person(
 );
 
 CREATE TABLE Login (
-	SSN INTEGER,
 	Email CHAR(32),
     Pswd CHAR(32),
 	Role ENUM('customer', 'customerRepresentative', 'manager'),
-    PRIMARY KEY (Email),
-    FOREIGN KEY (SSN) REFERENCES Person (SSN)
-		ON DELETE NO ACTION
-        ON UPDATE CASCADE
+    PRIMARY KEY (Email)
 );
         
 CREATE TABLE Employee (
@@ -61,7 +57,7 @@ CREATE TABLE Account (
     Customer INTEGER,
     PRIMARY KEY (Id),
     FOREIGN KEY (Customer) REFERENCES Customer (Id)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     CONSTRAINT chk_id CHECK ( Customer > 0 AND Customer < 1000000000 )
 );
@@ -118,7 +114,7 @@ CREATE TABLE MovieQ (
     MovieId Integer,
     PRIMARY KEY (AccountId, MovieId),
     FOREIGN KEY (AccountId) REFERENCES Account (Id)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (MovieId) REFERENCES Movie (Id)
         ON DELETE CASCADE

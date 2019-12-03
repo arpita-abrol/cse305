@@ -1,13 +1,9 @@
-CREATE VIEW SalesReport (AccountType, Value)
-AS
-    (SELECT AccountType, COUNT(*) * 10 FROM Account A1 WHERE A1.AccountType = 'Limited' AND DateOpened < ? )
-    UNION
-    (SELECT AccountType, COUNT(*) * 20 FROM Account A1 WHERE A1.AccountType = 'Unlimited-1' AND DateOpened < ? )
-    UNION
-    (SELECT AccountType, COUNT(*) * 30 FROM Account A1 WHERE A1.AccountType = 'Unlimited-2' AND DateOpened < ? )
-    UNION
-    (SELECT AccountType, COUNT(*) * 40 FROM Account A1 WHERE A1.AccountType = 'Unlimited-3' AND DateOpened < ? );
-
+CREATE VIEW CustomersView( CustomerId, Address, LastName, FirstName, City, State, Email, Zipcode, Telephone, CreditCardNumber, Rating)
+AS (
+	SELECT C.Id, P.Address, P.LastName, P.FirstName, L.City, L.State, C.Email, P.Zipcode, P.Telephone, C.CreditCardNumber, C.Rating
+    FROM Customer C, Person P, Location L
+    WHERE C.Id=P.SSN AND P.Zipcode=L.Zipcode
+);
 
 CREATE VIEW ListMoviesByName (AccountId, CustRepId, OrderId, MovieId, MovieName, Customer, OrderTableDateTime, ReturnDate) 
 AS (
