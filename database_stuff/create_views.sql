@@ -5,6 +5,13 @@ AS (
     WHERE C.Id=P.SSN AND P.Zipcode=L.Zipcode
 );
 
+CREATE VIEW EmployeesView( EmployeeId, Address, LastName, FirstName, City, State, Email, Zipcode, Telephone, StartDate, HourlyRate)
+AS (
+	SELECT E.Id, P.Address, P.LastName, P.FirstName, L.City, L.State, P.Email, P.Zipcode, P.Telephone, E.StartDate, E.HourlyRate
+    FROM Employee E, Person P, Location L
+    WHERE E.Id=P.SSN AND P.Zipcode=L.Zipcode
+);
+
 CREATE VIEW ListMoviesByName (AccountId, CustRepId, OrderId, MovieId, MovieName, Customer, OrderTableDateTime, ReturnDate) 
 AS (
     SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId, M.MovieName, A.Customer, O.OrderTableDateTime, O.ReturnDate

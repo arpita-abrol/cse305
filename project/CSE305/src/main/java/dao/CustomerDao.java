@@ -263,7 +263,7 @@ public class CustomerDao {
             Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
             Statement st = con.createStatement();
             int rowsUpdated = st.executeUpdate("CALL AddCust(" +
-                    						customer.getCustomerID() + ", " +
+                    						customer.getCustomerID().replaceAll("[^0-9]", "") + ", " +
                                             "\"" + customer.getEmail() + "\", " +
                                             customer.getRating() + ", " +
                                             "\"" + customer.getCreditCard() + "\", " +
@@ -303,7 +303,7 @@ public class CustomerDao {
             Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
             Statement st = con.createStatement();
             int rowsUpdated = st.executeUpdate("CALL EditCust(" +
-                    						customer.getCustomerID() + ", " +
+                    						customer.getCustomerID().replaceAll("[^0-9]", "") + ", " +
                                             "\"" + customer.getEmail() + "\", " +
                                             customer.getRating() + ", " +
                                             "\"" + customer.getCreditCard() + "\", " +
