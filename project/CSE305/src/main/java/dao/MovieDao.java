@@ -74,11 +74,12 @@ public class MovieDao {
 		 * You need to handle the database insertion of the movie details and return "success" or "failure" based on result of the database insertion.
 		 */
 		
+		// TODO form validation, restraints on adding movie
 		try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
             Statement st = con.createStatement();
-            int rowsUpdated = st.executeUpdate("INSERT INTO Movie VALUES(" + 
+            int rowsUpdated = st.executeUpdate("CALL AddMovie(" + 
             								"\"" + movie.getMovieName() + "\", " +
             								"\"" + movie.getMovieType() + "\", " +
             								movie.getRating() + ", " +
@@ -108,8 +109,28 @@ public class MovieDao {
 		 * You need to handle the database update and return "success" or "failure" based on result of the database update.
 		 */
 		
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("CALL EditMovie(" +
+                                            "\"" + movie.getMovieID() + "\", " +
+                                            "\"" + movie.getMovieType() + "\", " +
+                                            movie.getRating() + ", " +
+                                            movie.getDistFee() + ", " +
+                                            movie.getNumCopies() +
+                                            ");");
+            if( rowsUpdated > 0 )
+                return "success";
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        
+        return "failure";
+
+		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 
 	}
@@ -444,6 +465,19 @@ public List<Movie> getQueueOfMovies(String customerID){
 		
 
 		List<Movie> movies = new ArrayList<Movie>();
+		
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("CALL ListMovieByName(" +
+                                            "\"" + movie.getMovieName() + "\", " + ");");
+            
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        
+		return movies;
 		
 		/*Sample data begins*/
 		for (int i = 0; i < 4; i++) {
