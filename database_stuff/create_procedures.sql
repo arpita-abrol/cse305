@@ -1,10 +1,8 @@
 DELIMITER $$
-CREATE PROCEDURE `AddMovie`(
-    IN newId INTEGER, IN newTitle CHAR(20), IN newGenre CHAR(20), IN newRating INTEGER, IN newDistrFee DECIMAL(13,2), IN newNumCopies INTEGER
-)
+CREATE PROCEDURE AddMovie(IN newTitle CHAR(20), IN newGenre CHAR(20), IN newRating INTEGER, IN newDistrFee DECIMAL(13,2), IN newNumCopies INTEGER)
 BEGIN
-    INSERT INTO Movie(Id, MovieName, MovieType, Rating, DistrFee, NumCopies)
-    VALUES(newId, newTitle, newGenre, newRating, newDistrFee, newNumCopies);
+    INSERT INTO Movie( MovieName, MovieType, Rating, DistrFee, NumCopies)
+    VALUES(newTitle, newGenre, newRating, newDistrFee, newNumCopies);
 END$$
 DELIMITER ;
 
@@ -29,12 +27,16 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE `AddEmployee`(IN newSSN INTEGER, IN newStartDate DATE, IN newHourlyRate INTEGER, IN newLastName CHAR(20), IN newFirstName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
+CREATE PROCEDURE AddEmployee(IN newSSN INTEGER, IN newEmail CHAR(32), IN newPass CHAR(32), IN newStartDate DATE, IN newHourlyRate INTEGER, IN newLastName CHAR(20), IN newFirstName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
 BEGIN
     IF NOT EXISTS( SELECT * FROM Person WHERE newSSN = SSN ) THEN
-        INSERT INTO Person(SSN, LastName, FirstName, Address, ZipCode, Telephone)
-        VALUES(newSSN, newLastName, newFirstName, newAddress, newZipcode, newTelephone);
+        INSERT INTO Person(SSN, LastName, FirstName, Address, ZipCode, Telephone, Email)
+        VALUES(newSSN, newLastName, newFirstName, newAddress, newZipcode, newTelephone, newEmail);
     END IF;
+    IF NOT EXISTS( SELECT * FROM Login WHERE newEmail = Email ) THEN 
+		INSERT INTO Login(SSN, Email, Pswd, Role)
+        VALUES(newId, newEmail, newPass, "customerRepresentative");
+	END IF;
     INSERT INTO Employee(Id, SSN, StartDate, HourlyRate)
     VALUES(newSSN, newSSN, newStartDate, newHourlyRate);
 END$$
@@ -42,11 +44,14 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE EditEmployee(IN SSN INTEGER, IN newStartDate DATE, IN newHourlyRate INTEGER)
+CREATE PROCEDURE EditEmployee(IN newSSN INTEGER, IN newEmail CHAR(32), IN newStartDate DATE, IN newHourlyRate INTEGER, IN newLastName CHAR(20), IN newFirstName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
 BEGIN
+	UPDATE Person
+    SET LastName = newLastName, FirstName = newFirstName, Address = newAddress, Zipcode = newZipcode, Telephone = newTelephone, Email = newEmail
+    WHERE SSN = newSSN;
     UPDATE Employee
     SET StartDate = newStartDate, HourlyRate = newHourlyRate
-    WHERE Id = SSN;
+    WHERE Id = newSSN;
 END$$
 DELIMITER ;
 
@@ -61,23 +66,16 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE CreateOrder (IN newDateTime DATETIME, IN newReturnDate DATE, IN newAccountId INT, IN newCustRepId INT, IN newMovieId INT)
-BEGIN
-    INSERT INTO OrderTable(OrderTableDateTime, ReturnDate)
-    VALUES(newDateTime, newReturnDate);
-    SET @newId = LAST_INSERT_ID();
-    INSERT INTO Rental VALUE(newAccountId, newCustRepId, @newId, newMovieId);
-END$$
-DELIMITER ;
-
-
-DELIMITER $$
-CREATE PROCEDURE `AddCust`(IN newId INTEGER, IN newEmail CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16), IN newFirstName CHAR(20), IN newLastName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
+CREATE PROCEDURE AddCust(IN newId INTEGER, IN newEmail CHAR(32), IN newPass CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16), IN newFirstName CHAR(20), IN newLastName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
 BEGIN
     IF NOT EXISTS( SELECT * FROM Person WHERE newId = SSN ) THEN
-        INSERT INTO Person(SSN, LastName, FirstName, Address, ZipCode, Telephone)
-        VALUES(newId, newLastName, newFirstName, newAddress, newZipcode, newTelephone);
+        INSERT INTO Person(SSN, LastName, FirstName, Address, ZipCode, Telephone, Email)
+        VALUES(newId, newLastName, newFirstName, newAddress, newZipcode, newTelephone, newEmail);
     END IF;
+    IF NOT EXISTS( SELECT * FROM Login WHERE newEmail = Email ) THEN 
+		INSERT INTO Login(SSN, Email, Pswd, Role)
+        VALUES(newId, newEmail, newPass, "customer");
+	END IF;
     INSERT INTO Customer(Id, Email, Rating, CreditCardNumber)
     VALUES(newId, newEmail, newRating, newCreditCardNumber);
 END$$
@@ -85,8 +83,11 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE EditCust(IN custId INTEGER, IN newEmail CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16))
+CREATE PROCEDURE EditCust(IN custId INTEGER, IN newEmail CHAR(32), IN newRating INTEGER, IN newCreditCardNumber CHAR(16), IN newFirstName CHAR(20), IN newLastName CHAR(20), IN newAddress CHAR(20), IN newZipcode INTEGER, IN newTelephone VARCHAR(10))
 BEGIN
+	UPDATE Person
+    SET LastName = newLastName, FirstName = newFirstName, Address = newAddress, Zipcode = newZipcode, Telephone = newTelephone, Email = newEmail
+    WHERE SSN = custId;
     UPDATE Customer
     SET Email = newEmail, Rating = newRating, CreditCardNumber = newCreditCardNumber
     WHERE Id = custId;
@@ -109,6 +110,17 @@ BEGIN
     UPDATE ACCOUNT
     SET AccountType = newAccountType
     WHERE Customer = CustId;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE CreateOrder (IN newDateTime DATETIME, IN newReturnDate DATE, IN newAccountId INT, IN newCustRepId INT, IN newMovieId INT)
+BEGIN
+    INSERT INTO OrderTable(OrderTableDateTime, ReturnDate)
+    VALUES(newDateTime, newReturnDate);
+    SET @newId = LAST_INSERT_ID();
+    INSERT INTO Rental VALUE(newAccountId, newCustRepId, @newId, newMovieId);
 END$$
 DELIMITER ;
 

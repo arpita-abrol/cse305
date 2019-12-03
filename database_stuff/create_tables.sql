@@ -1,10 +1,3 @@
-CREATE TABLE Login (
-	Email  CHAR(32),
-    Pswd CHAR(32),
-	Role ENUM('customer', 'customerRepresentative', 'manager'),
-    PRIMARY KEY (Email)
-);
-
 CREATE TABLE Location (
     ZipCode INTEGER,
     City    CHAR(20) NOT NULL,
@@ -14,15 +7,27 @@ CREATE TABLE Location (
 
 CREATE TABLE Person(
     SSN INTEGER,
-    LastName    CHAR(20) NOT NULL,
-    FirstName   CHAR(20) NOT NULL,
+    LastName CHAR(20) NOT NULL,
+    FirstName CHAR(20) NOT NULL,
     Address CHAR(20),
     ZipCode INTEGER,
-    Telephone	VARCHAR(10),
+    Telephone VARCHAR(10),
+    Email CHAR(32),
     PRIMARY KEY (SSN),
     FOREIGN KEY (ZipCode) REFERENCES Location (ZipCode)
         ON DELETE NO ACTION
         ON UPDATE CASCADE 
+);
+
+CREATE TABLE Login (
+	SSN INTEGER,
+	Email CHAR(32),
+    Pswd CHAR(32),
+	Role ENUM('customer', 'customerRepresentative', 'manager'),
+    PRIMARY KEY (Email),
+    FOREIGN KEY (SSN) REFERENCES Person (SSN)
+		ON DELETE NO ACTION
+        ON UPDATE CASCADE
 );
         
 CREATE TABLE Employee (
