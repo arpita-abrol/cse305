@@ -214,17 +214,19 @@ public class MovieDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM mostrented;");
+			ResultSet rs = st.executeQuery("SELECT * FROM viewBestSeller;");
 			while(rs.next()) {
 				Movie movie = new Movie();
-				movie.setMovieID(rs.getInt("RentalNum"));
+				movie.setMovieID(rs.getInt("MovieId"));
 				movie.setMovieName(rs.getString("MovieName"));
-				movie.setMovieType(rs.getString("MovieName"));
+				movie.setMovieType(rs.getString("MovieType"));
 				movies.add(movie);
 			}
 		} catch(Exception e) {
 			System.out.println(e);
 		}
+		
+		return movies;
 		
 		/*Sample data begins
 		for (int i = 0; i < 5; i++) {
@@ -235,8 +237,6 @@ public class MovieDao {
 			movies.add(movie);
 		}
 		Sample data ends*/
-		
-		return movies;
 
 	}
 

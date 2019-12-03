@@ -133,8 +133,8 @@ Create VIEW actorsIn(MovieName, Rating,Actor) AS
     Where AI.ActorId=A.Id AND
 	M.Id=AI.MovieId AND A.ActorName=?;
 
-CREATE VIEW viewBestSeller(MovieId, MovieName, Rating, Views) AS (
-    Select M.Id, M.MovieName, M.Rating, Count(*)
+CREATE VIEW viewBestSeller(MovieId, MovieName, MovieType, Rating, Views) AS (
+    Select M.Id, M.MovieName, M.MovieType, M.Rating, Count(*)
     From OrderTable O, Rental R ,Movie M
     Where R.MovieId=M.Id AND O.Id = R.OrderId
     Group by M.Id
