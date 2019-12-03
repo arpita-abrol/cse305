@@ -12,6 +12,16 @@ AS (
     WHERE E.Id=P.SSN AND P.Zipcode=L.Zipcode
 );
 
+
+CREATE VIEW MostActiveCR (CustRepId, RentalNum, Address, LastName, FirstName, City, State, Email, Zipcode, Telephone, StartDate, HourlyRate) AS (
+    SELECT  CR.CustRepId, MAX(CR.RentalNum), P.Address, P.LastName, P.FirstName, L.City, L.State, P.Email, P.Zipcode, P.Telephone, E.StartDate, E.HourlyRate
+    FROM (SELECT COUNT(R.CustRepId)RentalNum, R.CustRepId
+                FROM Rental R
+                GROUP BY(R.CustRepId)) CR, Employee E, Person P, Location L
+	WHERE CR.CustRepId=E.Id AND E.Id=P.SSN AND P.Zipcode=L.Zipcode
+);
+
+
 CREATE VIEW ListMoviesByName (AccountId, CustRepId, OrderId, MovieId, MovieName, Customer, OrderTableDateTime, ReturnDate) 
 AS (
     SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId, M.MovieName, A.Customer, O.OrderTableDateTime, O.ReturnDate
@@ -33,14 +43,6 @@ AS (
 	SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId,    P.FirstName, P.LastName, A.Customer, O.OrderTableDateTime, O.ReturnDate
 	FROM Rental R, Account A, Person P, Account A, Order O 
 	WHERE (R.AccountId=A.Id) AND (P.SSN=A.Customer) AND (O.AccountId=A.Id) AND (R.AccountId=O.AccountId) AND (P.FirstName=?) AND (P.LastName=?)
-);
-
-
-CREATE VIEW MostActiveCR (CustRepId, RentalNum) AS (
-    SELECT  CR.CustRepId, MAX(CR.RentalNum)
-    FROM (SELECT COUNT(R.CustRepId)RentalNum, R.CustRepId
-                FROM Rental R
-                GROUP BY(R.CustRepId)) CR
 );
 
 

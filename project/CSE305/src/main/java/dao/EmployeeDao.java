@@ -234,12 +234,35 @@ public class EmployeeDao {
 		 */
 		
 		Employee employee = new Employee();
+				
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from mostActiveCR;");
+			while(rs.next()) {
+				employee.setEmail(rs.getString("Email"));
+				employee.setFirstName(rs.getString("FirstName"));
+				employee.setLastName(rs.getString("LastName"));
+				employee.setAddress(rs.getString("Address"));
+				employee.setCity(rs.getString("City"));
+				employee.setStartDate(rs.getString("StartDate"));
+				employee.setState(rs.getString("State"));
+				employee.setZipCode(rs.getInt("Zipcode"));
+				employee.setTelephone(rs.getString("Telephone"));
+				employee.setEmployeeID(getEmployeeID(employee.getEmail()));
+				employee.setHourlyRate(rs.getInt("HourlyRate"));
+				return employee;
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
 		
 		/*Sample data begins*/
-		employee.setEmail("shiyong@cs.sunysb.edu");
-		employee.setFirstName("Shiyong");
-		employee.setLastName("Lu");
-		employee.setEmployeeID("631-413-5555");
+//		employee.setEmail("shiyong@cs.sunysb.edu");
+//		employee.setFirstName("Shiyong");
+//		employee.setLastName("Lu");
+//		employee.setEmployeeID("631-413-5555");
 		/*Sample data ends*/
 		
 		return employee;
