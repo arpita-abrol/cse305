@@ -121,7 +121,6 @@ public class EmployeeDao {
 		/*Sample data ends*/
 
 	}
-
 	
 	public List<Employee> getEmployees() {
 
@@ -149,7 +148,7 @@ public class EmployeeDao {
 				employee.setState(rs.getString("State"));
 				employee.setZipCode(rs.getInt("Zipcode"));
 				employee.setTelephone(rs.getString("Telephone"));
-				employee.setEmployeeID(rs.getString("EmployeeId"));
+				employee.setEmployeeID(getEmployeeID(employee.getEmail()));
 				employee.setHourlyRate(rs.getInt("HourlyRate"));
 				employees.add(employee);
 			}
@@ -192,7 +191,7 @@ public class EmployeeDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * from EmployeesView WHERE EmployeeId=" + employeeID + ";");
+			ResultSet rs = st.executeQuery("SELECT * from EmployeesView WHERE EmployeeId=" + employeeID.replaceAll("[^0-9]", "") + ";");
 			while(rs.next()) {
 				employee.setEmail(rs.getString("Email"));
 				employee.setFirstName(rs.getString("FirstName"));
@@ -203,7 +202,7 @@ public class EmployeeDao {
 				employee.setState(rs.getString("State"));
 				employee.setZipCode(rs.getInt("Zipcode"));
 				employee.setTelephone(rs.getString("Telephone"));
-				employee.setEmployeeID(rs.getString("EmployeeId"));
+				employee.setEmployeeID(getEmployeeID(employee.getEmail()));
 				employee.setHourlyRate(rs.getInt("HourlyRate"));
 			}
 		} catch(Exception e) {
@@ -252,6 +251,19 @@ public class EmployeeDao {
 		 * username, which is the Employee's email address who's Employee ID has to be fetched, is given as method parameter
 		 * The Employee ID is required to be returned as a String
 		 */
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from EmployeesView WHERE Email=\"" + username + "\";");
+			while(rs.next()) {
+				String employeeID = rs.getString("EmployeeId");
+				return employeeID.substring(0,3) + "-" + employeeID.substring(3,5) + "-" + employeeID.substring(5);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
 
 		return "111-11-1111";
 	}
