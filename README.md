@@ -25,3 +25,5 @@ Now, you should be able to run this web app by selecting "Run As" and running it
 # Changes to source code
 
 A hidden field was added to ```editMovie.jsp``` to pass ```movieID```
+
+For SalesReport, the form values for months were modified to add a leading 0
