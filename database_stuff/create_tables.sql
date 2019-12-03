@@ -55,7 +55,7 @@ CREATE TABLE Customer (
 );
 
 CREATE TABLE Account (
-    Id INTEGER,
+    Id INTEGER NOT NULL AUTO_INCREMENT,
     DateOpened DATE,
     AccountType ENUM('Limited', 'Unlimited-1', 'Unlimited-2', 'Unlimited-3'),
     Customer INTEGER,

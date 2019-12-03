@@ -143,3 +143,11 @@ BEGIN
 END$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE getMoviesByActor(IN actorName CHAR(20), OUT Id INTEGER, OUT MovieName CHAR(20), OUT MovieType Char(20))
+BEGIN
+	SELECT M.Id, M.MovieName, M.MovieType
+    FROM Movie M
+    WHERE M.Id == AppearedIn.MovieId;
+END$$
+DELIMITER ;
