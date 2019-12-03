@@ -29,7 +29,7 @@ INSERT INTO Login VALUES(111111111, "yang@gmail.com", "pass3", "customer");
 # Account
 INSERT INTO Account VALUES(1, '2006-10-01', "Unlimited-2", 444444444);
 INSERT INTO Account VALUES(2, '2006-10-15', "Limited", 222222222);
-INSERT INTO Account VALUES(3, '2006-10-15', "Limited", 222222222);
+INSERT INTO Account VALUES(4, '2006-10-15', "Limited", 111111111);
 
 # OrderTable
 INSERT INTO OrderTable(OrderTableDateTime, ReturnDate) VALUES('2009-11-11 10:00:00', '2009-11-14');

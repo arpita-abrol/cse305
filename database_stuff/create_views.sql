@@ -9,12 +9,6 @@ AS
     (SELECT AccountType, COUNT(*) * 40 FROM Account A1 WHERE A1.AccountType = 'Unlimited-3' AND DateOpened < ? );
 
 
-CREATE VIEW AllMovies (Id, MovieName, MovieType, Rating, DistrFee, NumCopies) 
-AS (
-        SELECT * FROM Movie
-    );
-
-
 CREATE VIEW ListMoviesByName (AccountId, CustRepId, OrderId, MovieId, MovieName, Customer, OrderTableDateTime, ReturnDate) 
 AS (
     SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId, M.MovieName, A.Customer, O.OrderTableDateTime, O.ReturnDate
