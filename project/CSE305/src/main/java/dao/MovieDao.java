@@ -79,20 +79,21 @@ public class MovieDao {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
             Statement st = con.createStatement();
-            int rowsUpdated = st.executeUpdate("CALL AddMovie(" + 
-            								"\"" + movie.getMovieName() + "\", " +
-            								"\"" + movie.getMovieType() + "\", " +
-            								movie.getRating() + ", " +
-            								movie.getDistFee() + ", " +
-            								movie.getNumCopies() + 
-            								");");
+            int rowsUpdated = st.executeUpdate("CALL AddMovie(" +
+                                            "\"" + movie.getMovieName() + "\", " +
+                                            "\"" + movie.getMovieType() + "\", " +
+                                            movie.getRating() + ", " +
+                                            movie.getDistFee() + ", " +
+                                            movie.getNumCopies() +
+                                            ");");
             if( rowsUpdated > 0 )
-            	return "success";
+                return "success";
         } catch(Exception e) {
             System.out.println(e);
         }
-		
-		return "failure";
+        
+        return "failure";
+
 		
 		/*Sample data begins*/
 //		return "success";
@@ -114,7 +115,8 @@ public class MovieDao {
             Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
             Statement st = con.createStatement();
             int rowsUpdated = st.executeUpdate("CALL EditMovie(" +
-                                            "\"" + movie.getMovieID() + "\", " +
+            								movie.getMovieID() + ", " +
+                                            "\"" + movie.getMovieName() + "\", " +
                                             "\"" + movie.getMovieType() + "\", " +
                                             movie.getRating() + ", " +
                                             movie.getDistFee() + ", " +

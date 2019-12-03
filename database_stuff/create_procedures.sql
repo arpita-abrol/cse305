@@ -8,10 +8,10 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE EditMovie(IN movieId INTEGER, IN newMovieType CHAR(20), IN newRating INTEGER, IN newDistrFee DECIMAL(13,2), IN newNumCopies INTEGER)
+CREATE PROCEDURE EditMovie(IN movieId INTEGER, IN newMovieName CHAR(20), IN newMovieType CHAR(20), IN newRating INTEGER, IN newDistrFee DECIMAL(13,2), IN newNumCopies INTEGER)
 BEGIN
         UPDATE Movie
-        SET MovieType = newMovieType, Rating = newRating, DistrFee = newDistrFee, NumCopies = newNumCopies
+        SET MovieName = newMovieName, MovieType = newMovieType, Rating = newRating, DistrFee = newDistrFee, NumCopies = newNumCopies
         WHERE Id=movieId;
 END$$
 DELIMITER ;
