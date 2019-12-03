@@ -1,5 +1,9 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +36,21 @@ public class AccountDao {
 	
 	public String setAccount(String customerID, String accountType) {
 
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("CALL EditAccount(" + customerID.replaceAll("[^\\d]", "") + ", \"" + accountType + "\");");
+            if( rowsUpdated > 0 )
+                return "success";
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        
+        return "failure";
 		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 
 	}
