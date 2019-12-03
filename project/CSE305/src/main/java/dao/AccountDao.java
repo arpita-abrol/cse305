@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 
 import model.Employee;
 import model.Movie;
@@ -15,22 +16,39 @@ public class AccountDao {
 	
 	public int getSalesReport(Account account) {
 			
-			/*
-			 * The students code to fetch data from the database will be written here
-			 * Query to get sales report for a particular month must be implemented
-			 * account, which has details about the month and year for which the sales report is to be generated, is given as method parameter
-			 * The month and year are in the format "month-year", e.g. "10-2018" and stored in the dateOpened attribute of account object
-			 * The month and year can be accessed by getter method, i.e., account.getAcctCreateDate()
-			 */
+		/*
+		 * The students code to fetch data from the database will be written here
+		 * Query to get sales report for a particular month must be implemented
+		 * account, which has details about the month and year for which the sales report is to be generated, is given as method parameter
+		 * The month and year are in the format "month-year", e.g. "10-2018" and stored in the dateOpened attribute of account object
+		 * The month and year can be accessed by getter method, i.e., account.getAcctCreateDate()
+		 */
 	
-			int income = 0;
-					
-			/*Sample data begins*/
-			income = 100;
-			/*Sample data ends*/
+		int income = 0;
+		
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            String createDate = account.getAcctCreateDate();
+            String dateYear = createDate.split("-")[1];
+            String dateMonth = createDate.split("-")[0];
+            Calendar c = Calendar.getInstance();
+            c.set(Integer.parseInt(dateYear), Integer.parseInt(dateMonth), 1); 
+            ResultSet rs = st.executeQuery("CALL getSalesReport(\"" + dateYear + "-" + dateMonth + "-" + c.getActualMaximum(Calendar.DATE) + "\");");
+            while( rs.next() ) {
+            	income += rs.getInt(2);
+            }
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+							
+		/*Sample data begins*/
+//		income = 100;
+		/*Sample data ends*/
 			
 	
-			return income;
+		return income;
 			
 		}
 	

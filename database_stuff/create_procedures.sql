@@ -144,10 +144,14 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE getMoviesByActor(IN actorName CHAR(20), OUT Id INTEGER, OUT MovieName CHAR(20), OUT MovieType Char(20))
+CREATE PROCEDURE getSalesReport(IN targetDate DATE)
 BEGIN
-	SELECT M.Id, M.MovieName, M.MovieType
-    FROM Movie M
-    WHERE M.Id == AppearedIn.MovieId;
+    (SELECT AccountType, COUNT(*) * 10 FROM Account A1 WHERE A1.AccountType = 'Limited' AND DateOpened < targetDate )
+    UNION
+    (SELECT AccountType, COUNT(*) * 20 FROM Account A1 WHERE A1.AccountType = 'Unlimited-1' AND DateOpened < targetDate )
+    UNION
+    (SELECT AccountType, COUNT(*) * 30 FROM Account A1 WHERE A1.AccountType = 'Unlimited-2' AND DateOpened < targetDate )
+    UNION
+    (SELECT AccountType, COUNT(*) * 40 FROM Account A1 WHERE A1.AccountType = 'Unlimited-3' AND DateOpened < targetDate );
 END$$
 DELIMITER ;
