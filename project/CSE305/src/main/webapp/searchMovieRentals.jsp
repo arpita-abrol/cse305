@@ -19,10 +19,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<meta name="viewport" content="width:device-width, initial-scale=1">
 		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+		<title>Search Movie Rentals</title>
 	</head>
 	<body>
 	
-		<h1>Search movie rantals:</h1>
+		<h1>Search movie rentals:</h1>
 		<div class="container">
 			<h2>Search Options:</h2>
 			<div class="row">

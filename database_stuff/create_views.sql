@@ -51,32 +51,20 @@ CREATE VIEW viewBestSeller(MovieId, MovieName, MovieType, DistrFee, NumCopies, R
     Order By Count(*) DESC);
     
     
-
-
-
-
-CREATE VIEW ListMoviesByName (AccountId, CustRepId, OrderId, MovieId, MovieName, Customer, OrderTableDateTime, ReturnDate) 
-AS (
-    SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId, M.MovieName, A.Customer, O.OrderTableDateTime, O.ReturnDate
-    FROM Rental R, Movie M, Account A, Order O
-    WHERE (R.MovieId=M.Id) AND (O.AccountId=A.Id) AND (R.AccountId=O.AccountId) AND (M.MovieName=?)
-    );
-
-
-CREATE VIEW ListMoviesByType (AccountId, CustRepId, OrderId, MovieId, MovieName, Customer, OrderTableDateTime, ReturnDate) 
-AS (
-    SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId, M.MovieName, A.Customer, O.OrderTableDateTime, O.ReturnDate
-    FROM Rental R, Movie M, Account A, Order O
-    WHERE (R.MovieId=M.Id) AND (O.AccountId=A.Id) AND (R.AccountId=O.AccountId) AND (M.MovieType=?)
-    );
-
-
-CREATE VIEW ListMoviesByCustomerName (AccountId, CustRepId, OrderId, MovieId, FirstName, LastName, Customer, OrderTableDateTime, ReturnDate) 
-AS (
-	SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId,    P.FirstName, P.LastName, A.Customer, O.OrderTableDateTime, O.ReturnDate
-	FROM Rental R, Account A, Person P, Account A, Order O 
-	WHERE (R.AccountId=A.Id) AND (P.SSN=A.Customer) AND (O.AccountId=A.Id) AND (R.AccountId=O.AccountId) AND (P.FirstName=?) AND (P.LastName=?)
+Create VIEW GetMovieInfo(MovieName, MovieId, MovieType, Actor) AS (
+    Select M.MovieName, M.Id, M.MovieType, A.ActorName
+    From Actor A, AppearedIn AI, Movie M
+    Where AI.ActorId=A.Id AND M.Id=AI.MovieId
 );
+
+
+CREATE VIEW CurrentMovieRentals (AccountId, CustRepId, OrderId, MovieId, MovieName, MovieType, Customer, LastName, FirstName, OrderTableDateTime, ReturnDate) 
+AS (
+    SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId, M.MovieName, M.MovieType, A.Customer, P.LastName, P.FirstName, O.OrderTableDateTime, O.ReturnDate
+    FROM Rental R, Movie M, Account A, OrderTable O, Person P
+    WHERE R.MovieId=M.Id AND O.Id=A.Id AND R.AccountId=O.Id AND O.ReturnDate IS NULL AND A.Customer=P.SSN
+    GROUP BY R.MovieId
+    );
 
 
 CREATE VIEW MostRented (RentalNum, MovieName) AS (
