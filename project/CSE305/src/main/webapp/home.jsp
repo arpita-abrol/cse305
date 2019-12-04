@@ -12,17 +12,19 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<meta name="viewport" content="width:device-width, initial-scale=1">
 		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script src="./css/style.css" rel="stylesheet"></script>
 		<title>Customer Home</title>
 	</head>
 	<body>
-	
+
 		<h1>Welcome to the Online Movie Rental System!</h1>
 		<div class="container">
 			<h2>Customer Options:</h2>
 			<%
 			String email = (String)session.getAttribute("email");
 			String role = (String)session.getAttribute("role");
-			
+
 			//redirect to appropriate home page if already logged in
 			if(email != null) {
 				if(role.equals("manager")) {
@@ -37,7 +39,7 @@
 				response.sendRedirect("index.jsp");
 			}
 			%>
-			
+
 			<div class="row">
 				<div class="col">
 					<div class="card">
@@ -135,14 +137,14 @@
 					  </div>
 					</div>
 				</div>
-				
+
 		</div>
 		<div class="container">
 			<form action="logout">
 				<input type="submit" value="Logout" class="btn btn-danger"/>
 			</form>
 		</div>
-		
+
 		<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
 		<script src="webjars/bootstrap/4.1.3/bootstrap.min.js"></script>
 	</body>
