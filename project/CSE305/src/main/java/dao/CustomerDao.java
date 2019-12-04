@@ -1,13 +1,14 @@
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Customer;
-import model.Customer;
+import java.sql.Statement;
 
-import java.util.stream.IntStream;
+import model.Customer;	
 
 public class CustomerDao {
 	/*
@@ -32,7 +33,7 @@ public class CustomerDao {
 		
 		try {
 			Class.forName("com.sql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:33	06/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("select * from customer where FirstName like \'%" + searchKeyword + "%\'"
 					+ "or lastName like \'%" + searchKeyword + "%\'");
