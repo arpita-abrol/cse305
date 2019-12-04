@@ -16,7 +16,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<meta name="viewport" content="width:device-width, initial-scale=1">
-		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" /> 
+    	<link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+    	<link href="./css/style.css" rel="stylesheet"></link>
 	</head>
 	<body>
 	
