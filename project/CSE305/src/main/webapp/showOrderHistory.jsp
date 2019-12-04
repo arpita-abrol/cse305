@@ -5,7 +5,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page isELIgnored="false" %> 
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
@@ -20,6 +20,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width:device-width, initial-scale=1">
 	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
 	<title>Order History</title>
 </head>
 <body>
@@ -27,7 +29,7 @@
 	<h1>The Order History is:</h1>
 	<div class="container">
 	<c:if test="${empty rentals}">
-		<h3> Order History not found! <h3/> 
+		<h3> Order History not found! <h3/>
 	</c:if>
 	<c:if test="${not empty rentals}">
 		<table class="table table-striped">
@@ -42,12 +44,12 @@
 		     <c:forEach items="${rentals}" var="cd">
 		       <tr>
 		         <td>${cd.orderID}</td>
-		         <td>${cd.movieID}</td>		         
+		         <td>${cd.movieID}</td>
 		         <td>${cd.customerRepID}</td>
 		       </tr>
 		     </c:forEach>
 		  </tbody>
-		  
+
 		</table>
 	</c:if>
 	</div>
@@ -57,9 +59,9 @@
 		</form>
 	</div>
 
-	
+
 	<script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	
+
 </body>
 </html>

@@ -3,3 +3,10 @@ body {
   color: white;
   font-family: 'Bebas Neue', cursive;
 }
+
+.card {
+  color: #36454f;
+  width: 80%;
+  margin: 2.5%;
+  overflow: auto;
+}

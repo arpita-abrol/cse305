@@ -12,24 +12,26 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<meta name="viewport" content="width:device-width, initial-scale=1">
 		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
 		<title>Manager Home</title>
 	</head>
 	<body>
-	
+
 		<h1>Welcome to the Online Movie Rental System!</h1>
 		<div class="container">
 			<h2>Manager Options:</h2>
 			<%
 				String email = (String)session.getAttribute("email");
 				String role = (String)session.getAttribute("role");
-				
+
 				//redirect to appropriate home page if already logged in
 				if(email != null) {
 					if(role.equals("customerRepresentative")) {
 						response.sendRedirect("customerRepresentativeHome.jsp");
 					}
 					else if(!role.equals("manager")){
-						response.sendRedirect("home.jsp");	
+						response.sendRedirect("home.jsp");
 					}
 				}
 				else {
@@ -38,8 +40,7 @@
 				}
 
 			%>
-			
-			<div class="row">
+
 				<div class="col">
 					<div class="card">
 					  <div class="card-body">
@@ -51,7 +52,7 @@
 							<form action="getEmployees" class="pt-1">
 								<input type="submit" value="View / Edit / Delete Employee" class="btn btn-primary"/>
 							</form>
-							
+
 						</div>
 					  </div>
 					</div>
@@ -67,7 +68,7 @@
 							<form action="getEditMovies" class="pt-1">
 								<input type="submit" value="View / Edit / Delete Movie" class="btn btn-primary"/>
 							</form>
-							
+
 						</div>
 					  </div>
 					</div>
@@ -143,7 +144,7 @@
 							<form action="getHighestRevenueCustomer" class="pt-1">
 								<input type="submit" value="Customer" class="btn btn-success"/>
 							</form>
-							
+
 						</div>
 					  </div>
 					</div>
@@ -160,17 +161,15 @@
 					  </div>
 					</div>
 				</div>
-				
+
 			</div>
-			
-			
-		</div>
+
 		<div class="container">
 			<form action="logout">
 				<input type="submit" value="Logout" class="btn btn-danger"/>
 			</form>
 		</div>
-		
+
 		<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
 		<script src="webjars/bootstrap/4.1.3/bootstrap.min.js"></script>
 	</body>

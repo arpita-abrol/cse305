@@ -13,7 +13,7 @@
 		<meta name="viewport" content="width:device-width, initial-scale=1">
 		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <script src="./css/style.css" rel="stylesheet"></script>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
 		<title>Customer Home</title>
 	</head>
 	<body>
@@ -40,7 +40,6 @@
 			}
 			%>
 
-			<div class="row">
 				<div class="col">
 					<div class="card">
 					  <div class="card-body">
@@ -138,7 +137,6 @@
 					</div>
 				</div>
 
-		</div>
 		<div class="container">
 			<form action="logout">
 				<input type="submit" value="Logout" class="btn btn-danger"/>

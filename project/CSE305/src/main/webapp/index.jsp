@@ -13,17 +13,19 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<meta name="viewport" content="width:device-width, initial-scale=1">
 		<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
 		<title>Login | Online Auction House</title>
 	</head>
 	<body>
-	
+
 		<h1>Welcome to the Online Movie Rental System</h1>
 		<div class="container">
 			<h2>Login</h2>
 			<%
 				String email = (String)session.getAttribute("email");
 				String role = (String)session.getAttribute("role");
-				
+
 				//redirect to home page if already logged in
 				if(email != null) {
 					if(role.equals("manager")) {
@@ -33,10 +35,10 @@
 						response.sendRedirect("customerRepresentativeHome.jsp");
 					}
 					else {
-						response.sendRedirect("home.jsp");	
+						response.sendRedirect("home.jsp");
 					}
 				}
-				
+
 				String status = request.getParameter("status");
 				if(status != null) {
 					if(status.equals("false")) {
@@ -57,7 +59,7 @@
 				<input type="submit" value="Login" class="btn btn-success"/>
 			</form>
 		</div>
-		
+
 		<script src="webjars/jquery/3.3.1/jquery.min.js"></script>
 		<script src="webjars/bootstrap/4.1.3/bootstrap.min.js"></script>
 	</body>

@@ -5,7 +5,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page isELIgnored="false" %> 
+<%@ page isELIgnored="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
@@ -20,6 +20,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width:device-width, initial-scale=1">
 	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
 	<title>Customer-Item Details</title>
 </head>
 <body>
@@ -27,7 +29,7 @@
 	<h1>The Customer-wise Item Details are:</h1>
 	<div class="container">
 	<c:if test="${empty items}">
-		<h3> Items not found! <h3/> 
+		<h3> Items not found! <h3/>
 	</c:if>
 	<c:if test="${not empty items}">
 		<table class="table table-striped">
@@ -46,9 +48,9 @@
 		     <c:forEach items="${items}" varStatus="loop">
 		       <tr>
 		         <td>${items[loop.index].itemID}</td>
-		         <td>${items[loop.index].name}</td>		         
+		         <td>${items[loop.index].name}</td>
 		         <td>${items[loop.index].description}</td>
-		         <td>${items[loop.index].type}</td>		         
+		         <td>${items[loop.index].type}</td>
 		         <%-- <td>${auctions[loop.index].minimumBid}</td>
 		         <td>${auctions[loop.index].bidIncrement}</td> --%>
 		         <td>
@@ -58,7 +60,7 @@
 			            	<input type="hidden" class="form-control" name="itemID" value=${items[loop.index].itemID}>
 			        	</div>
 						<!-- <input type="submit" value="Bid" class="btn btn-success"/> -->
-					</form>		         
+					</form>
 		         </td>
 		       </tr>
 		     </c:forEach>
@@ -72,9 +74,9 @@
 		</form>
 	</div>
 
-	
+
 	<script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	
+
 </body>
 </html>
