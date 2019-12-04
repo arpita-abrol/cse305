@@ -253,14 +253,30 @@ public class MovieDao {
 
 		List<Movie> movies = new ArrayList<Movie>();
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 4; i++) {
-			Movie movie = new Movie();
-			movie.setMovieID(1);
-			movie.setMovieName("The Godfather");
-			movie.setMovieType("Drama");
-			movies.add(movie);
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("CALL suggested(" + customerID.replaceAll("[^0-9]", "") + ");");
+			while(rs.next()) {
+				Movie movie = new Movie();
+				movie.setMovieID(rs.getInt("Id"));
+				movie.setMovieName(rs.getString("MovieName"));
+				movie.setMovieType(rs.getString("MovieType"));
+				movies.add(movie);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		/*Sample data begins*/
+//		for (int i = 0; i < 4; i++) {
+//			Movie movie = new Movie();
+//			movie.setMovieID(1);
+//			movie.setMovieName("The Godfather");
+//			movie.setMovieType("Drama");
+//			movies.add(movie);
+//		}
 		/*Sample data ends*/
 		
 		return movies;
@@ -323,7 +339,7 @@ public class MovieDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM viewMovieQueue WHERE Customer=" + customerID.replaceAll("[^0-9]", "") + ";");
+			ResultSet rs = st.executeQuery("SELECT * FROM viewMovieQueue WHERE CustomerId=" + customerID.replaceAll("[^0-9]", "") + ";");
 			while(rs.next()) {
 				Movie movie = new Movie();
 				movie.setMovieID(rs.getInt("MovieId"));
@@ -627,7 +643,6 @@ public class MovieDao {
 		return movies;
 	}
 	
-
 	public List<Movie> getBestsellersForCustomer(String customerID) {
 
 		/*
@@ -638,18 +653,37 @@ public class MovieDao {
 		 */
 
 		List<Movie> movies = new ArrayList<Movie>();
-				
-		/*Sample data begins*/
-		for (int i = 0; i < 6; i++) {
-			Movie movie = new Movie();
-			movie.setMovieID(1);
-			movie.setMovieName("The Godfather");
-			movie.setMovieType("Drama");
-			movie.setDistFee(10000);
-			movie.setNumCopies(3);
-			movie.setRating(5);
-			movies.add(movie);
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM viewCustomerBestSeller WHERE CustomerId=" + customerID.replaceAll("[^0-9]","") + ";");
+			while(rs.next()) {
+				Movie movie = new Movie();
+				movie.setMovieID(rs.getInt("MovieId"));
+				movie.setMovieName(rs.getString("MovieName"));
+				movie.setMovieType(rs.getString("MovieType"));
+				movie.setDistFee(rs.getInt("DistrFee"));
+				movie.setNumCopies(rs.getInt("NumCopies"));
+				movie.setRating(rs.getInt("Rating"));
+				movies.add(movie);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		/*Sample data begins*/
+//		for (int i = 0; i < 6; i++) {
+//			Movie movie = new Movie();
+//			movie.setMovieID(1);
+//			movie.setMovieName("The Godfather");
+//			movie.setMovieType("Drama");
+//			movie.setDistFee(10000);
+//			movie.setNumCopies(3);
+//			movie.setRating(5);
+//			movies.add(movie);
+//		}
 		/*Sample data ends*/
 		
 		return movies;

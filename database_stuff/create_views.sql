@@ -71,7 +71,13 @@ CREATE VIEW getOrderHistory(AccountId, CustomerId, MovieId, OrderId, RentDate, R
     Where R.AccountId=A.Id AND R.OrderId=O.Id
 );
 
-
+CREATE VIEW viewCustomerBestSeller(MovieId, MovieName, MovieType, DistrFee, NumCopies, Rating, Views, CustomerId) AS (
+    Select M.Id, M.MovieName, M.MovieType, M.DistrFee, M.NumCopies, M.Rating, Count(*), A.Customer
+    From OrderTable O, Rental R, Movie M, Account A
+    Where R.MovieId=M.Id AND O.Id = R.OrderId AND R.AccountId=A.Id
+    Group by M.Id
+    Order By Count(*) DESC
+    );
 
 
 
@@ -84,34 +90,3 @@ CREATE VIEW MostRented (RentalNum, MovieName) AS (
     ORDER BY RC.RentalNum DESC, M.MovieName ASC
     LIMIT 10
 );
-
-
-CREATE VIEW MovieSuggestion(MovieName, MovieType, Rating) AS (
-    SELECT M.MovieName, M.MovieType, M.Rating
-    FROM  Movie M
-    WHERE M.Id NOT IN (
-        Select M1.Id
-        From Rental R, OrderTable O, Movie M1
-        Where R.AccountId=? AND R.OrderId=O.Id AND R.MovieId = M1.Id )
-    AND M.Id IN (
-        Select M2.Id
-        From Rental R, OrderTable O, Movie M2
-        Where R.AccountId=?? AND R.OrderId=O.Id AND R.MovieId = M2.Id )
-);
-
-
-CREATE VIEW recommended1(MovieName, Rating) AS
-    Select MovieName, Rating
-    From  (
-    Select MovieType, Count(*)
-        From Rental, Movie
-        Where AccountID=?
-        Group by MovieType
-        Order by Count(*)) T, Movie M
-    Where M.MovieType = T.MovieType AND M.Id NOT IN (
-        Select M.Id
-        From Rental R, Movie M
-        Where R.AccountId = ? AND R.MovieID=M.ID)
-    LIMIT 10;
-
-

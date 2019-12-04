@@ -178,3 +178,26 @@ BEGIN
     (SELECT AccountType, COUNT(*) * 25 FROM Account A1 WHERE A1.AccountType = 'Unlimited-3' AND DateOpened < targetDate );
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE suggested(IN custID INTEGER)
+BEGIN
+    DROP TABLE IF EXISTS mostWatchedType;
+    Create temporary table mostWatchedType (MovieType varchar(20), counts INT);
+        
+        Insert into mostWatchedType
+        Select M.MovieType, Count(*)
+		From Rental R, OrderTable O, Account A, Movie M
+		Where R.AccountId=A.Id AND R.OrderId=O.Id AND A.Customer=custID AND R.MovieId=M.Id
+        Group by MovieType
+        Order by Count(*) DESC;
+
+        Select Movie.ID,Movie.MovieName,Movie.Rating,Movie.MovieType
+        From Movie,    mostWatchedType
+        Where Movie.MovieType = mostWatchedType.MovieType
+        and Movie.ID not in (
+        Select Movie.ID
+        From Rental,Movie, Account
+        Where Rental.AccountID=Account.ID and Account.Customer = custID AND Rental.MovieID=Movie.ID);
+END$$
+DELIMITER ;

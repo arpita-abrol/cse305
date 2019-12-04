@@ -31,10 +31,10 @@ public class GetBestsellersForCustomerController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		String customerID = (String)request.getSession(false).getAttribute("customerID");
 		
 		MovieDao movieDao = new MovieDao();
-		List<Movie> movies = movieDao.getBestsellerMovies();
+		List<Movie> movies = movieDao.getBestsellersForCustomer(customerID);
 		
 		request.setAttribute("movies", movies);
 		RequestDispatcher rd = request.getRequestDispatcher("showBestsellersForCustomer.jsp");
