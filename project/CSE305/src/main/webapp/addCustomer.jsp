@@ -19,7 +19,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Add Customer</title>
-	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />	
+	<link href="webjars/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" /> 
+    	<link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+    	<link href="./css/style.css" rel="stylesheet"></link>	
+	<link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+  	<link href="./css/style.css" rel="stylesheet"></link>
 	<script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
 	<script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>

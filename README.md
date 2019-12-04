@@ -4,6 +4,10 @@ Team Name: BAP
 
 Team Members: Arpita Abrol, Paris Fisher, Brianna Florio
 
+# Project Submission
+
+The project submission files can be found in the ```SUBMISSION``` folder
+
 # Project Requirements
 
 Java 11
