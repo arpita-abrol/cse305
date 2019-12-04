@@ -24,7 +24,8 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap"
 	rel="stylesheet">
-<script src="./css/style.css" rel="stylesheet"></script>
+  <link href="https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
 <script src="webjars/jquery/3.3.1-1/jquery.min.js"></script>
 <script src="webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
