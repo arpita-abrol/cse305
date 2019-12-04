@@ -32,6 +32,8 @@ A hidden field was added to ```editMovie.jsp``` to pass ```movieID```
 
 For SalesReport, the form values for months were modified to add a leading 0
 
+We also added a new functionality, ```Send Order``` on the Customer Representative page. There, employees can add new orders for customers (required: account id and movie id)
+
 # GUI Changes
 
 We made changes to the provioded GUI by adding in new css files. We also made minor edits for details such as spelling errors or missing ```<title>``` tags, though not all errors were caught
