@@ -273,6 +273,13 @@
   <servlet>
   	<description>
   	</description>
+  	<display-name>SendOrderController</display-name>
+  	<servlet-name>SendOrderController</servlet-name>
+  	<servlet-class>resources.SendOrderController</servlet-class>
+  </servlet>
+  <servlet>
+  	<description>
+  	</description>
   	<display-name>GetMoviesController</display-name>
   	<servlet-name>GetMoviesController</servlet-name>
   	<servlet-class>resources.GetMoviesController</servlet-class>
@@ -554,6 +561,10 @@
   <servlet-mapping>
   	<servlet-name>GetOpenOrdersController</servlet-name>
   	<url-pattern>/getOpenOrders</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SendOrderController</servlet-name>
+  	<url-pattern>/SendOrder</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>GetMoviesController</servlet-name>
