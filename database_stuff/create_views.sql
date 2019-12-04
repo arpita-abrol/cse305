@@ -37,6 +37,24 @@ CREATE VIEW MostActiveCustomers (CustomerId, RentalNum, Address, LastName, First
 );
 
 
+CREATE VIEW MailingList(CustomerId, CustomerFirstName, CustomerLastName, Email, AccountType) AS (
+	SELECT C.Id, C.FirstName, C.LastName, C.Email, A.AccountType
+	FROM Account A JOIN (SELECT C1.Id, P.FirstName, P.LastName, C1.Email FROM Customer C1 JOIN Person P ON C1.Id = P.SSN) C ON A.Customer = C.Id
+);
+
+
+CREATE VIEW viewBestSeller(MovieId, MovieName, MovieType, DistrFee, NumCopies, Rating, Views) AS (
+    Select M.Id, M.MovieName, M.MovieType, M.DistrFee, M.NumCopies, M.Rating, Count(*)
+    From OrderTable O, Rental R ,Movie M
+    Where R.MovieId=M.Id AND O.Id = R.OrderId
+    Group by M.Id
+    Order By Count(*) DESC);
+    
+    
+
+
+
+
 CREATE VIEW ListMoviesByName (AccountId, CustRepId, OrderId, MovieId, MovieName, Customer, OrderTableDateTime, ReturnDate) 
 AS (
     SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId, M.MovieName, A.Customer, O.OrderTableDateTime, O.ReturnDate
@@ -69,12 +87,6 @@ CREATE VIEW MostRented (RentalNum, MovieName) AS (
     WHERE M.Id=RC.MovieId
     ORDER BY RC.RentalNum DESC, M.MovieName ASC
     LIMIT 10
-);
-
-
-CREATE VIEW MailingList(CustomerId, CustomerFirstName, CustomerLastName, Email, AccountType) AS (
-	SELECT C.Id, C.FirstName, C.LastName, C.Email, A.AccountType
-	FROM Account A JOIN (SELECT C1.Id, P.FirstName, P.LastName, C1.Email FROM Customer C1 JOIN Person P ON C1.Id = P.SSN) C ON A.Customer = C.Id
 );
 
 
@@ -135,13 +147,6 @@ Create VIEW actorsIn(MovieName, Rating,Actor) AS
     From Actor A, AppearedIn AI, Movie M
     Where AI.ActorId=A.Id AND
 	M.Id=AI.MovieId AND A.ActorName=?;
-
-CREATE VIEW viewBestSeller(MovieId, MovieName, MovieType, Rating, Views) AS (
-    Select M.Id, M.MovieName, M.MovieType, M.Rating, Count(*)
-    From OrderTable O, Rental R ,Movie M
-    Where R.MovieId=M.Id AND O.Id = R.OrderId
-    Group by M.Id
-    Order By Count(*) DESC);
 
 
 CREATE VIEW recommended1(MovieName, Rating) AS

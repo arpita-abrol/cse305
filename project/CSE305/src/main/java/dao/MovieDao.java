@@ -219,6 +219,9 @@ public class MovieDao {
 				movie.setMovieID(rs.getInt("MovieId"));
 				movie.setMovieName(rs.getString("MovieName"));
 				movie.setMovieType(rs.getString("MovieType"));
+				movie.setDistFee(rs.getInt("DistrFee"));
+				movie.setNumCopies(rs.getInt("NumCopies"));
+				movie.setRating(rs.getInt("Rating"));
 				movies.add(movie);
 			}
 		} catch(Exception e) {
