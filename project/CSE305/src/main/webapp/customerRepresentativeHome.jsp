@@ -51,6 +51,9 @@
 							<form action="getOpenOrders">
 								<input type="submit" value="Record Order" class="btn btn-success"/>
 							</form>
+							<form action="SendOrder.jsp" class="pt-1">
+								<input type="submit" value="Send Order" class="btn btn-success"/>
+							</form>
 						</div>
 					  </div>
 					</div>

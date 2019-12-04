@@ -151,8 +151,43 @@ public class OrderDao {
 			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
 			
-			int rowsUpdated = st.executeUpdate("CALL CreateOrder" + 
-								orderID.replaceAll("[^0-9]", "") + ";");
+			int rowsUpdated = st.executeUpdate("CALL RecordOrder(" + 
+								orderID.replaceAll("[^0-9]", "") + ");");
+			if( rowsUpdated > 0 )
+				return "success";
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return "failure";
+		
+		/* Sample data begins */
+//		return "success";
+		/* Sample data ends */
+	}
+	
+	public String sendOrder(String customerId, String movieId, String employeeId) {
+		/*
+		 * The students code to update data in the database will be written here
+		 * Query to record a sale, indicated by the order ID, should be implemented
+		 * orderID is the Order's ID, given as method parameter
+		 * The method should return a "success" string if the update is successful, else return "failure"
+		 */
+
+		System.out.println(customerId);
+		System.out.println(movieId);
+		System.out.println(employeeId);
+				
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			
+			int rowsUpdated = st.executeUpdate("CALL CreateOrder(DATE(now()), NULL," + 
+					customerId.replaceAll("[^0-9]", "") + ", " +
+					employeeId.replaceAll("[^0-9]", "") + ", " +
+					movieId.replaceAll("[^0-9]", "") +
+					");");
 			if( rowsUpdated > 0 )
 				return "success";
 		} catch(Exception e) {
