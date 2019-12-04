@@ -64,8 +64,21 @@ public class LoginDao {
 		 * Return "failure" for an unsuccessful database operation
 		 */
 		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			int rowsUpdated = st.executeUpdate("CALL AddLogin(\"" + login.getUsername() + "\", \"" + login.getPassword() + "\", \"" + login.getRole() + "\");");
+			if( rowsUpdated > 0 )
+				return "success";
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return "failure";
+		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 	}
 

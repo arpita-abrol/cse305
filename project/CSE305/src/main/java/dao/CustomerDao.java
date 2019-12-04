@@ -30,16 +30,17 @@ public class CustomerDao {
 		 * Each record is required to be encapsulated as a "Customer" class object and added to the "customers" List
 		 */
 		
+		if( searchKeyword == null )
+			searchKeyword = "";
+		
 		try {
-			Class.forName("com.sql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("select * from customer where FirstName like \'%" + searchKeyword + "%\'"
-					+ "or lastName like \'%" + searchKeyword + "%\'");
+			ResultSet rs = st.executeQuery("SELECT * from CustomersView WHERE LOWER(LastName) LIKE \"%" + searchKeyword + "%\" OR LOWER(FirstName) LIKE \"%" + searchKeyword + "%\";");
 			while(rs.next()) {
 				Customer customer = new Customer();
-				customer.setCustomerID(rs.getString("CustomerId"));
-				customer.setAddress(rs.getString("address"));
+				customer.setAddress(rs.getString("Address"));
 				customer.setLastName(rs.getString("LastName"));
 				customer.setFirstName(rs.getString("FirstName"));
 				customer.setCity(rs.getString("City"));
@@ -47,8 +48,9 @@ public class CustomerDao {
 				customer.setEmail(rs.getString("Email"));
 				customer.setZipCode(rs.getInt("Zipcode"));
 				customer.setTelephone(rs.getString("Telephone"));
-				customer.setCreditCard(rs.getString("CreditCard"));
+				customer.setCreditCard(rs.getString("CreditCardNumber"));
 				customer.setRating(rs.getInt("Rating"));
+				customer.setCustomerID(getCustomerID(customer.getEmail()));
 				customers.add(customer);
 			}
 		} catch(Exception e) {
@@ -84,13 +86,29 @@ public class CustomerDao {
 		 * The customer record is required to be encapsulated as a "Customer" class object
 		 */
 
+		Customer customer = new Customer();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from mostActiveCustomers;");
+			while(rs.next()) {
+				customer.setLastName(rs.getString("LastName"));
+				customer.setFirstName(rs.getString("FirstName"));
+				customer.setEmail(rs.getString("Email"));
+				customer.setCustomerID(getCustomerID(customer.getEmail()));
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
 
 		/*Sample data begins*/
-		Customer customer = new Customer();
-		customer.setCustomerID("111-11-1111");
-		customer.setLastName("Lu");
-		customer.setFirstName("Shiyong");
-		customer.setEmail("shiyong@cs.sunysb.edu");
+//		Customer customer = new Customer();
+//		customer.setCustomerID("111-11-1111");
+//		customer.setLastName("Lu");
+//		customer.setFirstName("Shiyong");
+//		customer.setEmail("shiyong@cs.sunysb.edu");
 		/*Sample data ends*/
 	
 		return customer;
@@ -108,19 +126,40 @@ public class CustomerDao {
 		
 		List<Customer> customers = new ArrayList<Customer>();
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setCustomerID("111-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Shiyong");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);			
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from CustomersView;");
+			while(rs.next()) {
+				Customer customer = new Customer();
+				customer.setAddress(rs.getString("Address"));
+				customer.setLastName(rs.getString("LastName"));
+				customer.setFirstName(rs.getString("FirstName"));
+				customer.setCity(rs.getString("City"));
+				customer.setState(rs.getString("State"));
+				customer.setEmail(rs.getString("Email"));
+				customer.setZipCode(rs.getInt("Zipcode"));
+				customer.setCustomerID(getCustomerID(customer.getEmail()));
+				customers.add(customer);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		/*Sample data begins*/
+//		for (int i = 0; i < 10; i++) {
+//			Customer customer = new Customer();
+//			customer.setCustomerID("111-11-1111");
+//			customer.setAddress("123 Success Street");
+//			customer.setLastName("Lu");
+//			customer.setFirstName("Shiyong");
+//			customer.setCity("Stony Brook");
+//			customer.setState("NY");
+//			customer.setEmail("shiyong@cs.sunysb.edu");
+//			customer.setZipCode(11790);
+//			customers.add(customer);			
+//		}
 		/*Sample data ends*/
 		
 		return customers;
@@ -135,19 +174,42 @@ public class CustomerDao {
 		 * The customer record is required to be encapsulated as a "Customer" class object
 		 */
 		
-		/*Sample data begins*/
 		Customer customer = new Customer();
-		customer.setCustomerID("111-11-1111");
-		customer.setAddress("123 Success Street");
-		customer.setLastName("Lu");
-		customer.setFirstName("Shiyong");
-		customer.setCity("Stony Brook");
-		customer.setState("NY");
-		customer.setEmail("shiyong@cs.sunysb.edu");
-		customer.setZipCode(11790);
-		customer.setTelephone("5166328959");
-		customer.setCreditCard("1234567812345678");
-		customer.setRating(1);
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from CustomersView WHERE CustomerId=" + customerID.replaceAll("[^0-9]", "") + ";");
+			while(rs.next()) {
+				customer.setAddress(rs.getString("Address"));
+				customer.setLastName(rs.getString("LastName"));
+				customer.setFirstName(rs.getString("FirstName"));
+				customer.setCity(rs.getString("City"));
+				customer.setState(rs.getString("State"));
+				customer.setEmail(rs.getString("Email"));
+				customer.setZipCode(rs.getInt("Zipcode"));
+				customer.setTelephone(rs.getString("Telephone"));
+				customer.setCreditCard(rs.getString("CreditCardNumber"));
+				customer.setRating(rs.getInt("Rating"));
+				customer.setCustomerID(getCustomerID(customer.getEmail()));
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		/*Sample data begins*/
+//		customer.setCustomerID("111-11-1111");
+//		customer.setAddress("123 Success Street");
+//		customer.setLastName("Lu");
+//		customer.setFirstName("Shiyong");
+//		customer.setCity("Stony Brook");
+//		customer.setState("NY");
+//		customer.setEmail("shiyong@cs.sunysb.edu");
+//		customer.setZipCode(11790);
+//		customer.setTelephone("5166328959");
+//		customer.setCreditCard("1234567812345678");
+//		customer.setRating(1);
 		/*Sample data ends*/
 		
 		return customer;
@@ -161,12 +223,24 @@ public class CustomerDao {
 		 * customerID, which is the Customer's ID who's details have to be deleted, is given as method parameter
 		 */
 
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("CALL DeleteCust(" + customerID.replaceAll("[^0-9]", "") + ");");
+            if( rowsUpdated > 0 )
+                return "success";
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        
+        return "failure";
+		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 		
 	}
-
 
 	public String getCustomerID(String username) {
 		/*
@@ -176,39 +250,21 @@ public class CustomerDao {
 		 * The Customer's ID is required to be returned as a String
 		 */
 
-		return "111-11-1111";
-	}
-
-
-	public List<Customer> getSellers() {
-		
-		/*
-		 * This method fetches the all seller details and returns it
-		 * The students code to fetch data from the database will be written here
-		 * The seller (which is a customer) record is required to be encapsulated as a "Customer" class object and added to the "customers" List
-		 */
-
-		List<Customer> customers = new ArrayList<Customer>();
-		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Customer customer = new Customer();
-			customer.setCustomerID("111-11-1111");
-			customer.setAddress("123 Success Street");
-			customer.setLastName("Lu");
-			customer.setFirstName("Shiyong");
-			customer.setCity("Stony Brook");
-			customer.setState("NY");
-			customer.setEmail("shiyong@cs.sunysb.edu");
-			customer.setZipCode(11790);
-			customers.add(customer);			
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from CustomersView WHERE Email=\"" + username + "\";");
+			while(rs.next()) {
+				String customerID = rs.getString("CustomerId");
+				return customerID.substring(0,3) + "-" + customerID.substring(3,5) + "-" + customerID.substring(5);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
-		/*Sample data ends*/
-		
-		return customers;
 
+		return "";
 	}
-
 
 	public String addCustomer(Customer customer) {
 
@@ -220,8 +276,33 @@ public class CustomerDao {
 		 * You need to handle the database insertion of the customer details and return "success" or "failure" based on result of the database insertion.
 		 */
 		
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("CALL AddCust(" +
+                    						customer.getCustomerID().replaceAll("[^0-9]", "") + ", " +
+                                            "\"" + customer.getEmail() + "\", " +
+                                            customer.getRating() + ", " +
+                                            "\"" + customer.getCreditCard() + "\", " +
+                                            "\"" + customer.getFirstName() + "\", " +
+                                            "\"" + customer.getLastName() + "\", " +
+                                            "\"" + customer.getAddress() + "\", " +
+                                            customer.getZipCode() + ", " +
+                                            "\"" + customer.getCity() + "\", " +
+                                            "\"" + customer.getState() + "\", " +
+                                            "\"" + customer.getTelephone() + "\" " +
+                                            ");");
+            if( rowsUpdated > 0 )
+                return "success";
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        
+        return "failure";
+		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 
 	}
@@ -235,8 +316,33 @@ public class CustomerDao {
 		 * You need to handle the database update and return "success" or "failure" based on result of the database update.
 		 */
 		
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+            Statement st = con.createStatement();
+            int rowsUpdated = st.executeUpdate("CALL EditCust(" +
+                    						customer.getCustomerID().replaceAll("[^0-9]", "") + ", " +
+                                            "\"" + customer.getEmail() + "\", " +
+                                            customer.getRating() + ", " +
+                                            "\"" + customer.getCreditCard() + "\", " +
+                                            "\"" + customer.getFirstName() + "\", " +
+                                            "\"" + customer.getLastName() + "\", " +
+                                            "\"" + customer.getAddress() + "\", " +
+                                            customer.getZipCode() + ", " +
+                                            "\"" + customer.getCity() + "\", " +
+                                            "\"" + customer.getState() + "\", " +
+                                            "\"" + customer.getTelephone() + "\" " +
+                                            ");");
+            if( rowsUpdated > 0 )
+                return "success";
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        
+        return "failure";
+		
 		/*Sample data begins*/
-		return "success";
+//		return "success";
 		/*Sample data ends*/
 
 	}

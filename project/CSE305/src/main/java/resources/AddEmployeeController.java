@@ -13,7 +13,7 @@ import model.Employee;
 import model.Login;
 
 /**
- * Servlet implementation class AddCustomerController
+ * Servlet implementation class AddEmployeeController
  */
 public class AddEmployeeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
