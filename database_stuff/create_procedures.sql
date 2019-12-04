@@ -151,6 +151,16 @@ DELIMITER ;
 
 
 DELIMITER $$
+CREATE PROCEDURE RecordOrder (IN completedOrder INTEGER)
+BEGIN
+	UPDATE OrderTable
+    SET ReturnDate=DATE(now())
+    WHERE Id=completedOrder;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
 CREATE PROCEDURE rateMovie(IN currentRating INTEGER, IN numRentals INTEGER)
 BEGIN
     SET @currentRating = (Select Rating

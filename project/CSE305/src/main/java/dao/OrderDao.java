@@ -25,14 +25,30 @@ public class OrderDao {
 		 * Query to get data about all the orders should be implemented
 		 */
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Order order = new Order();
-			order.setOrderID(1);
-			order.setDateTime("11-11-09 10:00");
-			order.setReturnDate("11-14-09");
-			orders.add(order);
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM OrderTable;");
+			while(rs.next()) {
+				Order order = new Order();
+				order.setOrderID(rs.getInt("Id"));
+				order.setDateTime(rs.getString("OrderTableDateTime"));
+				order.setReturnDate("ReturnDate");
+				orders.add(order);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		/*Sample data begins*/
+//		for (int i = 0; i < 10; i++) {
+//			Order order = new Order();
+//			order.setOrderID(1);
+//			order.setDateTime("11-11-09 10:00");
+//			order.setReturnDate("11-14-09");
+//			orders.add(order);
+//		}
 		/*Sample data ends*/
 		
 		return orders;
@@ -50,14 +66,30 @@ public class OrderDao {
 		 * customerID is the customer's primary key, given as method parameter
 		 */
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Order order = new Order();
-			order.setOrderID(1);
-			order.setDateTime("11-11-09 10:00");
-			order.setReturnDate("11-14-09");
-			orders.add(order);
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM getOrderHistory WHERE CustomerId=" + customerID.replaceAll("[^0-9]", "") + ";");
+			while(rs.next()) {
+				Order order = new Order();
+				order.setOrderID(rs.getInt("OrderId"));
+				order.setDateTime(rs.getString("RentDate"));
+				order.setReturnDate(rs.getString("ReturnDate"));
+				orders.add(order);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		/*Sample data begins*/
+//		for (int i = 0; i < 10; i++) {
+//			Order order = new Order();
+//			order.setOrderID(1);
+//			order.setDateTime("11-11-09 10:00");
+//			order.setReturnDate("11-14-09");
+//			orders.add(order);
+//		}
 		/*Sample data ends*/
 		
 		return orders;
@@ -74,14 +106,30 @@ public class OrderDao {
 		 * employeeEmail is the email ID of the customer representative, which is given as method parameter
 		 */
 		
-		/*Sample data begins*/
-		for (int i = 0; i < 10; i++) {
-			Order order = new Order();
-			order.setOrderID(1);
-			order.setDateTime("11-11-09 10:00");
-			order.setReturnDate("11-14-09");
-			orders.add(order);
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM getOrderHistory WHERE ReturnDate is NULL AND EmployeeEmail=\"" + employeeEmail + "\";");
+			while(rs.next()) {
+				Order order = new Order();
+				order.setOrderID(rs.getInt("OrderId"));
+				order.setDateTime(rs.getString("RentDate"));
+				order.setReturnDate("ReturnDate");
+				orders.add(order);
+			}
+		} catch(Exception e) {
+			System.out.println(e);
 		}
+		
+		/*Sample data begins*/
+//		for (int i = 0; i < 10; i++) {
+//			Order order = new Order();
+//			order.setOrderID(1);
+//			order.setDateTime("11-11-09 10:00");
+//			order.setReturnDate("11-14-09");
+//			orders.add(order);
+//		}
 		/*Sample data ends*/
 		
 		return orders;
@@ -102,14 +150,16 @@ public class OrderDao {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://mysql3.cs.stonybrook.edu:3306/" + System.getenv("NETID"), System.getenv("NETID"), System.getenv("SBUID"));
 			Statement st = con.createStatement();
-			int rowsUpdated = st.executeUpdate("SELECT * FROM getOrderHistory WHERE CustomerId=" + orderID.replaceAll("[^0-9]", "") + ";");
+			
+			int rowsUpdated = st.executeUpdate("CALL CreateOrder" + 
+								orderID.replaceAll("[^0-9]", "") + ";");
 			if( rowsUpdated > 0 )
 				return "success";
 		} catch(Exception e) {
 			System.out.println(e);
 		}
 		
-		return "failure";;
+		return "failure";
 		
 		/* Sample data begins */
 //		return "success";

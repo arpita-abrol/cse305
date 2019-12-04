@@ -65,10 +65,10 @@ CREATE VIEW viewMovieQueue (MovieName, MovieRating, MovieType, MovieId, Customer
     From MovieQ MQ, Movie M, Account A
     Where A.Id = MQ.AccountId AND M.Id = MQ.MovieId );
 
-CREATE VIEW getOrderHistory(AccountId, CustomerId, MovieId, OrderId, RentDate, ReturnDate, EmployeeId) AS(
-    Select R.AccountId, A.Customer, R.MovieId, O.Id, O.OrderTableDateTime, O.ReturnDate, R.CustRepId
-    From Rental R, OrderTable O, Account A
-    Where R.AccountId=A.Id AND R.OrderId=O.Id
+CREATE VIEW getOrderHistory(AccountId, CustomerId, MovieId, OrderId, RentDate, ReturnDate, EmployeeId, EmployeeEmail) AS(
+    Select R.AccountId, A.Customer, R.MovieId, O.Id, O.OrderTableDateTime, O.ReturnDate, R.CustRepId, P.Email
+    From Rental R, OrderTable O, Account A, Person P
+    Where R.AccountId=A.Id AND R.OrderId=O.Id  AND R.CustRepId=P.SSN
 );
 
 CREATE VIEW viewCustomerBestSeller(MovieId, MovieName, MovieType, DistrFee, NumCopies, Rating, Views, CustomerId) AS (
