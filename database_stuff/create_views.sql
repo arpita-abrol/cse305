@@ -14,11 +14,26 @@ AS (
 
 
 CREATE VIEW MostActiveCR (CustRepId, RentalNum, Address, LastName, FirstName, City, State, Email, Zipcode, Telephone, StartDate, HourlyRate) AS (
-    SELECT  CR.CustRepId, MAX(CR.RentalNum), P.Address, P.LastName, P.FirstName, L.City, L.State, P.Email, P.Zipcode, P.Telephone, E.StartDate, E.HourlyRate
+    SELECT  CR.CustRepId, CR.RentalNum, P.Address, P.LastName, P.FirstName, L.City, L.State, P.Email, P.Zipcode, P.Telephone, E.StartDate, E.HourlyRate
     FROM (SELECT COUNT(R.CustRepId)RentalNum, R.CustRepId
                 FROM Rental R
-                GROUP BY(R.CustRepId)) CR, Employee E, Person P, Location L
+                GROUP BY(R.CustRepId)
+                ORDER BY(RentalNum) DESC) CR, Employee E, Person P, Location L
 	WHERE CR.CustRepId=E.Id AND E.Id=P.SSN AND P.Zipcode=L.Zipcode
+    ORDER BY(RentalNum) DESC
+    LIMIT 1
+);
+
+
+CREATE VIEW MostActiveCustomers (CustomerId, RentalNum, Address, LastName, FirstName, City, State, Email, Zipcode, Telephone, CreditCardNumber, Rating) AS (
+    SELECT  CR.AccountId, CR.RentalNum, P.Address, P.LastName, P.FirstName, L.City, L.State, P.Email, P.Zipcode, P.Telephone, C.CreditCardNumber, C.Rating
+    FROM (SELECT R.AccountId, COUNT(R.AccountId) AS RentalNum
+                FROM Rental R
+                GROUP BY(R.AccountId)
+                ORDER BY(RentalNum) DESC) CR, Account A, Customer C, Person P, Location L
+	WHERE CR.AccountId=A.Id AND A.Customer=C.Id AND C.Id=P.SSN AND P.Zipcode=L.Zipcode
+    ORDER BY CR.RentalNum DESC
+    LIMIT 1
 );
 
 
@@ -43,17 +58,6 @@ AS (
 	SELECT R.AccountId, R.CustRepId, R.OrderId, R.MovieId,    P.FirstName, P.LastName, A.Customer, O.OrderTableDateTime, O.ReturnDate
 	FROM Rental R, Account A, Person P, Account A, Order O 
 	WHERE (R.AccountId=A.Id) AND (P.SSN=A.Customer) AND (O.AccountId=A.Id) AND (R.AccountId=O.AccountId) AND (P.FirstName=?) AND (P.LastName=?)
-);
-
-
-CREATE VIEW MostActiveCustomers (Id, RentalCount) AS (
-	SELECT A.Customer, AC.RentalNum
-    FROM (SELECT COUNT (*) RentalNum, AccountId
-		FROM Rental R
-		GROUP BY (R.AccountId))AC, Account A
-	WHERE AC.AccountId=A.Id
-	ORDER BY AC.RentalNum DESC, A.AccountId ASC
-	LIMIT 10
 );
 
 
