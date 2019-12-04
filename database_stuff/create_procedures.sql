@@ -85,6 +85,8 @@ BEGIN
     END IF;
     INSERT INTO Customer(Id, Email, Rating, CreditCardNumber)
     VALUES(newId, newEmail, newRating, newCreditCardNumber);
+    INSERT INTO Account(DateOpened, AccountType, Customer) 
+    VALUES(DATE(now()), "Limited", NewId);
 END$$
 DELIMITER ;
 

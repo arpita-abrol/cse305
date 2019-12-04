@@ -79,8 +79,6 @@ CREATE VIEW viewCustomerBestSeller(MovieId, MovieName, MovieType, DistrFee, NumC
     Order By Count(*) DESC
     );
 
-
-
 CREATE VIEW MostRented (RentalNum, MovieName) AS (
     SELECT RC.RentalNum, M.MovieName
     FROM Movie M, (SELECT COUNT(*) RentalNum, MovieId
